@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.db import models
 
 
@@ -10,7 +11,7 @@ class Category(models.Model):
         db_table = 'categories'
         ordering = ['name']
         verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return self.name
