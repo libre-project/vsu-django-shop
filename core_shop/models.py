@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Category(models.Model):
@@ -16,9 +17,12 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
+    #@models.permalink
+    #def get_absolute_url(self):
+        #return ('catalog_category', (), { 'category_slug': self.slug })
+
     def get_absolute_url(self):
-        return ('catalog_category', (), { 'category_slug': self.slug })
+        return reverse('core_shop:product_list_by_category', args=[self.slug])
 
 
 class Product(models.Model):
@@ -41,6 +45,9 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
+    #@models.permalink
+    #def get_absolute_url(self):
+        #return ('catalog_product', (), { 'product_slug': self.slug })
+
     def get_absolute_url(self):
-        return ('catalog_product', (), { 'product_slug': self.slug })
+        return reverse('core_shop:product_detail', args=[self.id, self.slug])
