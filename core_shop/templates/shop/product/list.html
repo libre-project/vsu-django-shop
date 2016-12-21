@@ -6,20 +6,25 @@
 {% endblock %}
 
 {% block content %}
-<div id="sidebar" class="col-sm-3">
-	<h3>Категории</h3>
-	<ul class = "nav nav-pills nav-stacked">
-		<li {% if not category %} class="active" {% endif %}>
-			<a href="{% url "core_shop:product_list" %}">Все</a>
-		</li>
-		{% for cat in categories %}
-		<li {% if category.slug == cat.slug %} class="active" {% endif %}>
-			<a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
-		</li>
-		{% endfor %}
-	</ul>
+<div class="row">
+<div class="col-sm-3">
+	<div class="panel panel-default">
+		<div class="panel-heading">Категории</div>
+		<div class="panel-body">
+			<ul class = "nav nav-pills nav-stacked">
+				<li {% if not category %} class="active" {% endif %}>
+				<a href="{% url "core_shop:product_list" %}">Все</a>
+				</li>
+				{% for cat in categories %}
+				<li {% if category.slug == cat.slug %} class="active" {% endif %}>
+				<a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 </div>
-<div id="main" class="product_list col-sm-9">
+<div class="col-sm-9">
     <h1>{% if category %}{{ category.name }}{% else %}Товары{% endif %}</h1>
     <div class="items_row">
         {% for product in products %}
@@ -29,5 +34,6 @@
             </div>
         {% endfor %}
     </div>
+</div>
 </div>
 {% endblock %}

@@ -10,7 +10,9 @@ class Category(models.Model):
     is_active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
+    # __unicode__ on Python 2 (чтобы в панели админа отображалось нормально)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = 'categories'
         ordering = ['name']

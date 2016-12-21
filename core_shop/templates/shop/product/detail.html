@@ -5,12 +5,18 @@
 
 {% block content %}
 <div class="product-detail">
-    <div class="col-sm-8">
-        <h1>{{ product.name }}</h1>
-	<h2>{{ product.brand }}</h2>
-        <h3><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></h3>
-        <p class="price">{{ product.price }} руб. </p>
-        <span>{{ product.description | linebreaks }}</span>
-    </div>
+	<div class="col-sm-8">
+		<div class = "panel panel-default">
+			<div class = "panel-heading"><b>{{ product.name }}</b></div>
+			<div class = "panel-body">
+				{{ product.brand }}
+				<hr>
+		<h3><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></h3>
+			<hr>
+		<p class="price">{{ product.price }} руб.</p>
+		<span>{{ product.description | linebreaks }}</span>
+			</div>
+	</div>
+</div>
 </div>
 {% endblock %}
