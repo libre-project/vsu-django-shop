@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Category, Product
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from .models import Category, Product, Profile
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -19,3 +21,15 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name', )}
 
 admin.site.register(Product, ProductAdmin)
+
+class ProfileInLine(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name = 'Профиль'
+    verbose_name_plural = 'Профили'
+
+class UserAdmin(UserAdmin):
+    inlines = (ProfileInLine, )
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

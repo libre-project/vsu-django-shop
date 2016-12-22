@@ -19,3 +19,12 @@ def product_detail(request, id, slug):
     page_title = product.name
     return render(request, 'shop/product/detail.html', {'product': product})
 
+def is_customer(request):
+    if request.Profile.user.is_authenticated():
+        current_user = request.Profile
+        if current_user.customer:
+            return True
+        else:
+            return False
+    else:
+        return False
