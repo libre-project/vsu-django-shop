@@ -11,9 +11,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    # __unicode__ on Python 2 (чтобы в панели админа отображалось нормально)
-    def __str__(self):
-        return self.name
+
     class Meta:
         db_table = 'categories'
         ordering = ['name']
@@ -21,6 +19,9 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
 
     def __unicode__(self):
+        return self.name
+
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -49,11 +50,14 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
     def get_absolute_url(self):
         return reverse('core_shop:product_detail', args=[self.id, self.slug])
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
     customer = models.BooleanField(default = False)
     def __str__(self):
         return "Продавец" if self.customer else "Покупатель"
