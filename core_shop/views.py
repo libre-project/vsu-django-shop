@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+import unidecode
+from unidecode import unidecode
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
-
+from .forms import ProductForm
+from django.utils import timezone
+from django.utils.text import slugify
 
 def product_list(request, category_slug=None):
     category = None
@@ -28,3 +32,33 @@ def is_customer(request):
             return False
     else:
         return False
+
+def product_new(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit = False)
+            product.created_at = timezone.now()
+            product.updated_at = timezone.now()
+            #product.slug = slugify(unidecode(product.name))
+            product.save()
+            # return redirect('shop.views.product_detail', id = product.id, slug = product.slug)
+            return redirect('/')
+    else:
+        form = ProductForm()
+        return render(request, 'shop/product/product_edit.html', {'form' : form})
+
+def product_edit(request, id, slug):
+    product = get_object_or_404(Product, id = id, slug = slug)
+    if request.method == "POST":
+        form = ProductForm(request.POST, instance = product)
+        if form.is_valid():
+            product = form.save(commit = False)
+            product.created_at = timezone.now()
+            product.updated_at = timezone.now()
+            product.save()
+            # return redirect('shop.views.product_detail', id = product.id, slug = product.slug)
+            return redirect('/')
+    else:
+        form = ProductForm(instance = product)
+        return render(request, 'shop/product/product_edit.html', {'form' : form})

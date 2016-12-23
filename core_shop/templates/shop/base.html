@@ -26,6 +26,9 @@
 					<li><a href="#">Page 1-3</a></li>
 				</ul>
 			</li>
+			{% if user.profile.customer %}
+			<li><a href="{% url 'core_shop:product_new' %}">Добавить товар</a></li>
+			{% endif %}
 			<li><a href="#">О магазине</a></li>
 		</ul>
 	<ul class="nav navbar-nav navbar-right">

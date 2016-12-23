@@ -17,6 +17,7 @@
 		<span>{{ product.description | linebreaks }}</span>
 			</div>
 	</div>
+	<a class = "btn btn-default" href="{% url 'core_shop:product_edit' id=product.id slug=product.slug %}">Редактировать товар</a>
 </div>
 </div>
 {% endblock %}
