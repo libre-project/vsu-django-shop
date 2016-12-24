@@ -1,0 +1,18 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+    <form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+<div class="col-sm-9">
+    <div class="items_row">
+        {% for obj in filter.qs %}
+            <div class="item col-sm-4">
+                <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a><br>
+                {{ obj.price }} руб.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+	{% endblock %}

@@ -18,6 +18,7 @@
 			</div>
 	</div>
 	<a class = "btn btn-default" href="{% url 'core_shop:product_edit' id=product.id slug=product.slug %}">Редактировать товар</a>
+	<a class = "btn btn-default" href="{% url 'core_shop:product_delete' id=product.id slug=product.slug %}">Удалить товар</a>
 </div>
 </div>
 {% endblock %}

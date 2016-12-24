@@ -2,7 +2,7 @@ import unidecode
 from unidecode import unidecode
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
-from .forms import ProductForm
+from .forms import ProductForm, ProductDeleteForm, ProductFilter
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -16,6 +16,9 @@ def product_list(request, category_slug=None):
     return render(request, 'shop/product/list.html', {
         'category': category, 'categories': categories, 'products': products})
 
+def product_list_f(request):
+    f = ProductFilter(request.GET, queryset = Product.objects.all())
+    return render(request, 'shop/product/filter.html', { 'filter' : f })
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
@@ -34,6 +37,8 @@ def is_customer(request):
         return False
 
 def product_new(request):
+    if not request.user.profile.customer:
+        return redirect('/')
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -41,8 +46,9 @@ def product_new(request):
             product.created_at = timezone.now()
             product.updated_at = timezone.now()
             product.slug = slugify(unidecode(product.name))
+            product.profile = request.user.profile
             product.save()
-            # return redirect('shop.views.product_detail', id = product.id, slug = product.slug)
+            # return render(request, 'shop.views.product_detail',{'id': product.id, 'slug':product.slug})
             return redirect('/')
     else:
         form = ProductForm()
@@ -59,7 +65,21 @@ def product_edit(request, id, slug):
             product.slug = slugify(unidecode(product.name))
             product.save()
             # return redirect('shop.views.product_detail', id = product.id, slug = product.slug)
+            # return render(request, 'shop.views.product_detail',{'id': product.id, 'slug':product.slug})
             return redirect('/')
     else:
         form = ProductForm(instance = product)
         return render(request, 'shop/product/product_edit.html', {'form' : form})
+
+def product_delete(request, id, slug):
+    product_to_delete = get_object_or_404(Product, id = id, slug = slug)
+    if request.method == "POST":
+        form = ProductDeleteForm(request.POST, instance = product_to_delete)
+        if form.is_valid():
+            product_to_delete.delete()
+            return redirect('/')
+    else:
+        form = ProductDeleteForm(instance = product_to_delete)
+    return render(request, 'shop/product/product_delete.html', {'form' : form, 'product' : product_to_delete})
+
+

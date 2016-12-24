@@ -28,6 +28,21 @@ class Category(models.Model):
         return reverse('core_shop:product_list_by_category', args=[self.slug])
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    customer = models.BooleanField(default = False)
+    def __str__(self):
+        return "Продавец" if self.customer else "Покупатель"
+
+@receiver(post_save, sender = User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user = instance)
+
+@receiver(post_save, sender = User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', verbose_name="Категория")
     name = models.CharField(max_length=255, unique=True, verbose_name="Название")
@@ -39,6 +54,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True, verbose_name="Доступен")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    profile = models.ForeignKey(Profile, null = True,  related_name = 'Профиль')
 
     class Meta:
         db_table = 'products'
@@ -56,17 +72,3 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('core_shop:product_detail', args=[self.id, self.slug])
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    customer = models.BooleanField(default = False)
-    def __str__(self):
-        return "Продавец" if self.customer else "Покупатель"
-
-@receiver(post_save, sender = User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user = instance)
-
-@receiver(post_save, sender = User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
