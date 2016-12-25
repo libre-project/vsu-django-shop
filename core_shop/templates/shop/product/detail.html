@@ -17,8 +17,10 @@
 		<span>{{ product.description | linebreaks }}</span>
 			</div>
 	</div>
+	{% if product.profile.user == user  %}
 	<a class = "btn btn-default" href="{% url 'core_shop:product_edit' id=product.id slug=product.slug %}">Редактировать товар</a>
 	<a class = "btn btn-default" href="{% url 'core_shop:product_delete' id=product.id slug=product.slug %}">Удалить товар</a>
+	{% endif %}
 </div>
 </div>
 {% endblock %}

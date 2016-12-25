@@ -21,9 +21,10 @@ def product_list_f(request):
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    user = request.user
     category = product.category.name
     page_title = product.name
-    return render(request, 'shop/product/detail.html', {'product': product})
+    return render(request, 'shop/product/detail.html', {'product': product, 'user' : user})
 
 def is_customer(request):
     if request.Profile.user.is_authenticated():
@@ -55,6 +56,8 @@ def product_new(request):
 
 def product_edit(request, id, slug):
     product = get_object_or_404(Product, id = id, slug = slug)
+    if request.user != product.profile.user or not request.user.is_authenticated:
+        return redirect('/')
     if request.method == "POST":
         form = ProductForm(request.POST, instance = product)
         if form.is_valid():
@@ -72,6 +75,8 @@ def product_edit(request, id, slug):
 
 def product_delete(request, id, slug):
     product_to_delete = get_object_or_404(Product, id = id, slug = slug)
+    if request.user != product_to_delete.profile.user or not request.user.is_authenticated:
+        return redirect('/')
     if request.method == "POST":
         form = ProductDeleteForm(request.POST, instance = product_to_delete)
         if form.is_valid():
