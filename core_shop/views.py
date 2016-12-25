@@ -5,7 +5,6 @@ from .models import Category, Product
 from .forms import ProductForm, ProductDeleteForm, ProductFilter
 from django.utils import timezone
 from django.utils.text import slugify
-
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()

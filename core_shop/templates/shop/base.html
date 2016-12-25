@@ -33,8 +33,12 @@
 		</ul>
 	<ul class="nav navbar-nav navbar-right">
 		<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
-		<li><a href="#"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
-		<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+		{% if user.is_authenticated %}
+		<li><a href="#"><span class='glyphicon glyphicon-user'></span> Привет, {{ user.username  }}</a></li>
+		<li><a href="logout"><span class='glyphicon glyphicon-log-out'></span> Выйти</a></li>
+		{% else  %}
+		<li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+		{% endif %}
 	</ul>
 	</div>
 </nav>
