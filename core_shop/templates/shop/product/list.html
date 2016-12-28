@@ -31,6 +31,10 @@
             <div class="item col-sm-4">
                 <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
                 {{ product.price }} руб.
+                {% if user.is_authenticated and product.profile.user != user %}<br>
+	            <a class = "btn btn-default" href="{% url 'core_shop:product_buy' id=product.id slug=product.slug %}">
+                    Купить</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

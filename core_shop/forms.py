@@ -24,3 +24,8 @@ class ProductFilter(django_filters.FilterSet):
         #         'price': ['lt', 'gt'],
         # }
 
+class ProductBuyForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ()
+
