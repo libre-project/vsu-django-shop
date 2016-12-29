@@ -1,41 +1,42 @@
-from django.shortcuts import render
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.http import Http404
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from shop.models import Product
+
+from .cart import Cart
+from .forms import CartAddProductForm
 
 
-def shopping_cart(request, template_name='orders/shopping_cart.html'):
-    cart = get_shopping_cart(request)
-    ctx = {'cart': cart}
-    return render_to_response(template_name, ctx, context_instance=RequestContext(request))
+def show_cart(request, template_name='cart/detail.html'):
+    cart_item_count = cart.cart_item_count(request)
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+"""
+@require_POST
+def cart_add(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product=product, quantity=cd['quantity'],
+                 update_quantity=cd['update'])
+    return redirect('cart:CartDetail')
 
 
-def add_to_cart(request, queryset, id=None, slug=None, slug_field='slug', template_name='orders/add_to_cart.html'):
-    product = lookup_object(queryset, id, slug, slug_field)
-    count = request.GET.get('count', 1)
-    cart = get_shopping_cart(request)
-    cart.add_item(product, count)
-    update_shopping_cart(request, cart)
-    ctx = {'product': product, 'cart': cart}
-    return render_to_response(template_name, ctx, context_instance=RequestContext(request))
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    return redirect('cart:CartDetail')
 
 
-def remove_from_cart(request, queryset, id=None, template_name='orders/remove_from_cart.html'):
-    cart = get_shopping_cart(request)
-    cart.remove_item(id)
-    update_shopping_cart(request, cart)
-    ctx = {'cart': cart}
-    return render_to_response(template_name, ctx, context_instance=RequestContext(request))
-
-
-def lookup_object(queryset, id=None, slug=None, slug_field=None):
-    if id is not None:
-        obj = queryset.get(pk=id)
-    elif slug and slug_field:
-        kwargs = {slug_field: slug}
-        obj = queryset.get(**kwargs)
-    else:
-        raise Http404
-    return obj
-
-
+def cart_detail(request):
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(
+            initial={
+                'quantity': item['quantity'],
+                'update': True
+            })
+    return render(request, 'cart/detail.html', {'cart': cart})
+"""

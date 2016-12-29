@@ -5,6 +5,7 @@ from .models import Category, Product
 from .forms import ProductForm, ProductDeleteForm, ProductFilter, ProductBuyForm
 from django.utils import timezone
 from django.utils.text import slugify
+from cart.cart import Cart
 
 
 def product_list(request, category_slug=None):
@@ -97,6 +98,7 @@ def product_buy(request, id, slug):
         form = ProductBuyForm(request.POST, instance=product)
         if form.is_valid():
             #product.buy() !!!!
+            Cart.add(product)
             return redirect('/')
     else:
         form = ProductBuyForm(instance=product)
