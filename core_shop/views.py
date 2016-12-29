@@ -2,9 +2,11 @@ import unidecode
 from unidecode import unidecode
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
-from .forms import ProductForm, ProductDeleteForm, ProductFilter
+from .forms import ProductForm, ProductDeleteForm, ProductFilter, ProductBuyForm
 from django.utils import timezone
 from django.utils.text import slugify
+
+
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
@@ -85,5 +87,19 @@ def product_delete(request, id, slug):
     else:
         form = ProductDeleteForm(instance = product_to_delete)
     return render(request, 'shop/product/product_delete.html', {'form' : form, 'product' : product_to_delete})
+
+
+def product_buy(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+    if request.user == product.profile.user or not request.user.is_authenticated:
+        return redirect('/')
+    if request.method == "POST":
+        form = ProductBuyForm(request.POST, instance=product)
+        if form.is_valid():
+            #product.buy() !!!!
+            return redirect('/')
+    else:
+        form = ProductBuyForm(instance=product)
+    return render(request, 'shop/product/product_buy.html', {'form': form, 'product': product})
 
 
