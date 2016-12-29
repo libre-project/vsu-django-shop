@@ -119,6 +119,8 @@ USE_TZ = True
 
 SITE_NAME = 'Darknet Shop'
 
+MEDIA_ROOT = '~/Pictures/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
