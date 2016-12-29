@@ -8,7 +8,7 @@ from cart.models import CartItem
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name='Категория')
     slug = models.SlugField(max_length=50, unique=True, help_text='Уникальное значение для URL категории')
     description = models.TextField(max_length = 2000)
     is_active = models.BooleanField(default = True)
@@ -48,9 +48,10 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products', verbose_name="Категория")
+    category = models.ForeignKey(Category, related_name='Категория', verbose_name="Категория")
     name = models.CharField(max_length=255, unique=True, verbose_name="Название")
     brand = models.CharField(max_length = 50, verbose_name="Производитель")
+    image = models.ImageField(upload_to='product/pictures', default = 'product/no-img.png', verbose_name='Изображение')
     slug = models.SlugField(max_length=255, unique=True, help_text='Уникальное значение для ULR продукта')
     description = models.TextField(blank=True, verbose_name="Описание")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
