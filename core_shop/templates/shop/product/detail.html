@@ -4,23 +4,36 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<div class="product-detail">
-	<div class="col-sm-8">
-		<div class = "panel panel-default">
-			<div class = "panel-heading"><b>{{ product.name }}</b></div>
+<style>
+	img {
+		max-width: 300px; /* Максимальная ширина страницы в пикселах */ 
+		}
+</style>
+<h1>{{ product.name }}</h1>
+<div class="row">
+	<div class="col-sm-4">
+		<img class = "img-rounded" src = "http://memepedia.ru/wp-content/uploads/2016/07/GaecXsgZG8Y.jpg"></img>
+	</div>
+	<div class="col-sm-4">
+		<div class = "panel panel-primary">
+			<div class = "panel-heading"><b>Описание</b></div>
 			<div class = "panel-body">
-				{{ product.brand }}
-				<hr>
-		<h3><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></h3>
+			<ul>
+				<li><b>Производитель: </b> {{ product.brand }}</li>
+				<li><b>Категория: </b><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+			</ul>
 			<hr>
-		<p class="price">{{ product.price }} руб.</p>
+			<p class="price"><b>Цена: </b> {{ product.price }} руб.</p>
+			<hr>
 		<span>{{ product.description | linebreaks }}</span>
 			</div>
+		</div>
 	</div>
+</div>
+<div class="col-sm-4">
 	{% if product.profile.user == user  %}
 	<a class = "btn btn-default" href="{% url 'core_shop:product_edit' id=product.id slug=product.slug %}">Редактировать товар</a>
 	<a class = "btn btn-default" href="{% url 'core_shop:product_delete' id=product.id slug=product.slug %}">Удалить товар</a>
 	{% endif %}
-</div>
 </div>
 {% endblock %}
