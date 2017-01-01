@@ -1,14 +1,12 @@
 from __future__ import unicode_literals
 from django.db import models
-from core_shop.models import Product
-from core_shop.models import Profile
 
 
 class CartItem(models.Model):
     cart_id = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
     count = models.IntegerField(default=1)
-    product = models.ForeignKey(Product, unique=False)
+    product = models.ForeignKey('core_shop.Product', related_name='Продукт', unique=False)
 
     class Meta:
         db_table = 'cart_items'
@@ -30,6 +28,7 @@ class CartItem(models.Model):
         self.count += int(count)
         self.save()
 
+"""
 
 class Order(models.Model):
     profile = models.ForeignKey(Profile, blank=True, null=True)
@@ -44,4 +43,5 @@ class ProductInOrder(models.Model):
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     count = models.PositiveIntegerField()
+"""
 
