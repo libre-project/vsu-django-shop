@@ -6,11 +6,7 @@ class CartItem(models.Model):
     cart_id = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
     count = models.IntegerField(default=1)
-<<<<<<< HEAD
-    product = models.ForeignKey('core_shop.Product', unique=False, related_name='product_item')
-=======
     product = models.ForeignKey('core_shop.Product', related_name='Продукт', unique=False)
->>>>>>> fbf9ce591155f986159f280984f8aa34bf96cf9a
 
     class Meta:
         db_table = 'cart_items'
