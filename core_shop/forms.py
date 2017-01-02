@@ -21,8 +21,9 @@ class ProductFilter(django_filters.FilterSet):
         model = Product
         fields = ( 'category',  )
 
-class ProductBuyForm(forms.ModelForm):
+class ProductBuyForm(forms.Form):
+    count = forms.IntegerField(label='Количество товара', initial=1, min_value=1)
     class Meta:
         model = Product
-        fields = ()
+        fields = ('count',)
 

@@ -34,7 +34,7 @@ class Category(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer = models.BooleanField(default=False)
-    cart = models.ForeignKey(CartItem)
+    cart = models.ForeignKey(CartItem, related_name='Корзина', verbose_name="Корзина", null=True)
     def __str__(self):
         return "Продавец" if self.customer else "Покупатель"
 
@@ -46,6 +46,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender = User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='Категория', verbose_name="Категория")
@@ -76,4 +77,10 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('core_shop:product_detail', args=[self.id, self.slug])
+
+    def change_count(self, count):
+        self.count -= int(count)
+        if self.count == 0:
+            self.available = False
+        self.save()
 

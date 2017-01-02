@@ -1,8 +1,55 @@
 from django.conf import settings
+from cart.models import CartItem
 from core_shop.models import Product
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from decimal import Decimal
+import uuid
+
+CART_ID_SESSION_KEY = 'cart_id'
 
 
+def _cart_id(request):
+    if request.session.get(CART_ID_SESSION_KEY, '') == '':
+        request.session[CART_ID_SESSION_KEY] = _generate_cart_id()
+    return request.session[CART_ID_SESSION_KEY]
+
+
+def _generate_cart_id():
+    return str(uuid.uuid4())
+
+
+def get_cart_items(request):
+    return CartItem.objects.filter(cart_id=_cart_id(request))
+
+
+def add_to_cart(request, product, count):
+    #postdata = request.POST.copy()
+    # get product slug, return blank if empty
+    #product_slug = postdata.get('product_slug', '')
+    # get count added, return 1 if empty
+    #count = postdata.get('count', 1)
+
+    #product = get_object_or_404(Product, slug=product_slug)
+    cart_products = get_cart_items(request)
+    product_in_cart = False
+    # if item is already in cart
+    for item in cart_products:
+        if item.product.id == product.id:
+            item.argument_count(count)
+            product_in_cart = True
+    if not product_in_cart:
+        cart_item = CartItem()
+        cart_item.product = product
+        cart_item.count = count
+        cart_item.cart_id = _cart_id(request)
+        cart_item.save()
+
+
+def cart_distinct_item_count(request):
+    return get_cart_items(request).count()
+
+"""
 class Cart(object):
     def __init__(self, request):
         # Инициализация корзины пользователя
@@ -59,3 +106,4 @@ class Cart(object):
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
+"""

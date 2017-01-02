@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_view
 from . import views
+from django.conf.urls import include
 
 
 urlpatterns = [
@@ -15,6 +16,6 @@ urlpatterns = [
     url(r'^product/(?P<id>\d+)/(?P<slug>[-\w]+)/buy/$', views.product_buy, name='product_buy'),
     url(r'^(?P<category_slug>[-\w]+)/$', views.product_list, name='product_list_by_category'),
     url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.product_detail, name='product_detail'),
-    url(r'^cart/', include('cart.urls')),
+    url(r'^cart/', include('cart.urls', namespace='cart')),
 ]
 
