@@ -2,10 +2,11 @@ import unidecode
 from unidecode import unidecode
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
+from cart.models import CartItem
+from cart import cart
 from .forms import ProductForm, ProductDeleteForm, ProductFilter, ProductBuyForm
 from django.utils import timezone
 from django.utils.text import slugify
-from cart.cart import Cart
 
 
 def product_list(request, category_slug=None):
@@ -95,13 +96,19 @@ def product_buy(request, id, slug):
     if request.user == product.profile.user or not request.user.is_authenticated:
         return redirect('/')
     if request.method == "POST":
-        form = ProductBuyForm(request.POST, instance=product)
+        form = ProductBuyForm(request.POST)
         if form.is_valid():
-            #product.buy() !!!!
-            Cart.add(product)
+            if request.user.profile.cart is None:
+                request.user.profile.cart = CartItem()
+            count = form.cleaned_data['count']
+            # if product count is invalid
+            if count > product.count:
+                return redirect('/')
+            cart.add_to_cart(request, product, count)
+            product.change_count(count)
             return redirect('/')
     else:
-        form = ProductBuyForm(instance=product)
+        form = ProductBuyForm()
     return render(request, 'shop/product/product_buy.html', {'form': form, 'product': product})
 
 

@@ -30,12 +30,12 @@
 			</li>
 			<li class="{% if request.resolver_match.url_name == "product_filter" %}active{% endif %}"><a href="/filter">Поиск</a></li>
 			{% if user.profile.customer %}
-			<li class="{% if request.resolver_match.url_name == "product_new" %}active{% endif %}""><a href="{% url 'core_shop:product_new' %}">Добавить товар</a></li>
+			<li class="{% if request.resolver_match.url_name == "product_new" %}active{% endif %}"><a href="{% url 'core_shop:product_new' %}">Добавить товар</a></li>
 			{% endif %}
 		</ul>
 	<ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
 		<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
-		{% if user.is_authenticated %}
 		<li><a href="#"><span class='glyphicon glyphicon-user'></span> Привет, {{ user.username  }}</a></li>
 		<li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Выйти</a></li>
 		{% else  %}

@@ -78,3 +78,9 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('core_shop:product_detail', args=[self.id, self.slug])
 
+    def change_count(self, count):
+        self.count -= int(count)
+        if self.count == 0:
+            self.available = False
+        self.save()
+
