@@ -2,7 +2,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_view
 from . import views
-from django.conf.urls import include
 
 
 urlpatterns = [
@@ -13,9 +12,11 @@ urlpatterns = [
     url(r'^product/new/$', views.product_new, name='product_new'),
     url(r'^product/(?P<id>\d+)/(?P<slug>[-\w]+)/edit/$', views.product_edit, name='product_edit'),
     url(r'^product/(?P<id>\d+)/(?P<slug>[-\w]+)/delete/$', views.product_delete, name='product_delete'),
-    url(r'^product/(?P<id>\d+)/(?P<slug>[-\w]+)/buy/$', views.product_buy, name='product_buy'),
+    # url(r'^product/(?P<id>\d+)/(?P<slug>[-\w]+)/buy/$', views.product_buy, name='product_buy'),
     url(r'^(?P<category_slug>[-\w]+)/$', views.product_list, name='product_list_by_category'),
     url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.product_detail, name='product_detail'),
-    url(r'^cart/', include('cart.urls', namespace='cart')),
+    # url(r'^cart/', include("cart.urls", namespace="cart")),
+    # url(r'^', include('core_shop.urls', namespace='shop')),
 ]
 
+    # url(r'^cart/', include('cart.urls', namespace='cart')),

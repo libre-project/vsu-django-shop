@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from cart.models import CartItem
+# from cart.models import CartItem
 
 
 class Category(models.Model):
@@ -34,7 +34,7 @@ class Category(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer = models.BooleanField(default=False)
-    cart = models.ForeignKey(CartItem, related_name='Корзина', verbose_name="Корзина", null=True)
+    # cart = models.ForeignKey(CartItem, related_name='Корзина', verbose_name="Корзина", null=True)
     def __str__(self):
         return "Продавец" if self.customer else "Покупатель"
 

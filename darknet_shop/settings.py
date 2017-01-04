@@ -118,6 +118,8 @@ USE_TZ = True
 
 SITE_NAME = 'Darknet Shop'
 
+CART_SESSION_ID = 'cart'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures')
 MEDIA_URL = '/pictures/'
 # Static files (CSS, JavaScript, Images)

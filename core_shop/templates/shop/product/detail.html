@@ -1,6 +1,5 @@
 {% extends 'shop/base.html' %}
 {% load static %}
-
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
@@ -29,6 +28,12 @@
 			</div>
 		</div>
 	</div>
+	<p class="price">{{ product.price }} руб.</p>
+<form action="{% url "cart:CartAdd" product.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Добавить в корзину">
+</form>
 </div>
 <div class="col-sm-4">
 	{% if product.profile.user == user  %}
