@@ -1,4 +1,5 @@
-{% extends "core_shop/base.html" %}
+{% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}
   Ваша корзина товаров
@@ -42,7 +43,7 @@
     </tbody>
   </table>
   <p class="text-right">
-    <a href="{% url "shop:ProductList"%}" class="btn">Продолжить Шопинг</a>
+    <a href="{% url "core_shop:product_list"%}" class="btn">Продолжить Шопинг</a>
     <a href="#">Оформить заказ</a>
   </p>
   {% endblock %}

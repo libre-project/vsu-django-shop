@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_view
 from . import views
 
-
 urlpatterns = [
     url(r'^$', views.product_list, name='product_list'),
     url(r'^filter/$', views.product_list_f, name = 'product_filter'),
