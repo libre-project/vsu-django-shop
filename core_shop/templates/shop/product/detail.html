@@ -23,7 +23,7 @@
 			</ul>
 			<hr>
 			<p class="price"><b>Цена: </b> {{ product.price }} руб.</p>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and product.available %}
             <form action="{% url "cart:CartAdd" product.id %}" method="post">
             {{ cart_product_form }}
             {% csrf_token %}

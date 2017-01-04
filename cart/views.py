@@ -11,15 +11,17 @@ def CartAdd(request, product_id):
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'],
-                                  update_quantity=cd['update'])
         # remove products from stock
         count = cd['quantity']
         # if product count is invalid
         if count > product.count:
             # buy all products
+            cart.add(product=product, quantity=product.count,
+                     update_quantity=cd['update'])
             product.change_count(-product.count)
         else:
+            cart.add(product=product, quantity=cd['quantity'],
+                     update_quantity=cd['update'])
             product.change_count(-cd['quantity'])
     return redirect('cart:CartDetail')
 

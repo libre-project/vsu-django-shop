@@ -80,7 +80,6 @@ class Product(models.Model):
 
     def change_count(self, count):
         self.count += int(count)
-        if self.count == 0:
-            self.available = False
+        self.available = self.count > 0
         self.save()
 

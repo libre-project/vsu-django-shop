@@ -22,7 +22,7 @@ def product_list_f(request):
     return render(request, 'shop/product/filter.html', { 'filter' : f })
 
 def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    product = get_object_or_404(Product, id=id, slug=slug)
     cart_product_form = CartAddProductForm()
     return render(request, 'shop/product/detail.html',
                              {'product': product,
