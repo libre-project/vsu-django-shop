@@ -79,7 +79,7 @@ class Product(models.Model):
         return reverse('core_shop:product_detail', args=[self.id, self.slug])
 
     def change_count(self, count):
-        self.count -= int(count)
+        self.count += int(count)
         if self.count == 0:
             self.available = False
         self.save()

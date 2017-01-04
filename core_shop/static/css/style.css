@@ -3,6 +3,13 @@ body{
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
 }
+input[type="submit"]{
+  background: #2a6496;
+  border-radius: 3px;
+  border: 0;
+  padding: 5px 10px;
+  color: white;
+}
 .top{
   padding: 20px 0;
   font-size: 25px;

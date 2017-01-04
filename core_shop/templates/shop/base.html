@@ -35,7 +35,7 @@
 		</ul>
 	<ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-		<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
+		<li><a href="{% url 'cart:CartDetail' %}"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
 		<li><a href="#"><span class='glyphicon glyphicon-user'></span> Привет, {{ user.username  }}</a></li>
 		<li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Выйти</a></li>
 		{% else  %}

@@ -13,6 +13,14 @@ def CartAdd(request, product_id):
         cd = form.cleaned_data
         cart.add(product=product, quantity=cd['quantity'],
                                   update_quantity=cd['update'])
+        # remove products from stock
+        count = cd['quantity']
+        # if product count is invalid
+        if count > product.count:
+            # buy all products
+            product.change_count(-product.count)
+        else:
+            product.change_count(-cd['quantity'])
     return redirect('cart:CartDetail')
 
 def CartRemove(request, product_id):

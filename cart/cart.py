@@ -4,15 +4,16 @@ from core_shop.models import Product
 
 
 class Cart(object):
+    # Инициализация корзины пользователя
     def __init__(self, request):
-        # Инициализация корзины пользователя
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Сохраняем корзину пользователя в сессию
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
-        # Добавление товара в корзину пользователя или обновление количества товара
+
+    # Добавление товара в корзину пользователя или обновление количества товара
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id)
         if product_id not in self.cart:
@@ -29,12 +30,15 @@ class Cart(object):
         self.session[settings.CART_SESSION_ID] = self.cart
         # Указываем, что сессия изменена
         self.session.modified = True
+
     def remove(self, product):
         product_id = str(product.id)
         if product_id in self.cart:
+            product.change_count(self.cart[product_id]['quantity'])
             del self.cart[product_id]
             self.save()
-# Итерация по товарам
+
+    # Итерация по товарам
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
@@ -49,6 +53,7 @@ class Cart(object):
     # Количество товаров
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
+
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 

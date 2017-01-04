@@ -2,9 +2,8 @@ import unidecode
 from unidecode import unidecode
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
-# from cart.models import CartItem
-# from cart import cart
-from .forms import ProductForm, ProductDeleteForm, ProductFilter, ProductBuyForm
+from .forms import ProductForm, ProductDeleteForm, ProductFilter
+from cart.forms import CartAddProductForm
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -24,10 +23,11 @@ def product_list_f(request):
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    user = request.user
-    category = product.category.name
-    page_title = product.name
-    return render(request, 'shop/product/detail.html', {'product': product, 'user' : user})
+    cart_product_form = CartAddProductForm()
+    return render(request, 'shop/product/detail.html',
+                             {'product': product,
+                              'cart_product_form': cart_product_form})
+
 
 def is_customer(request):
     if request.Profile.user.is_authenticated():
@@ -88,33 +88,3 @@ def product_delete(request, id, slug):
     else:
         form = ProductDeleteForm(instance = product_to_delete)
     return render(request, 'shop/product/product_delete.html', {'form' : form, 'product' : product_to_delete})
-
-
-# def product_buy(request, id, slug):
-#     product = get_object_or_404(Product, id=id, slug=slug)
-#     if request.user == product.profile.user or not request.user.is_authenticated:
-#         return redirect('/')
-#     if request.method == "POST":
-#         form = ProductBuyForm(request.POST)
-#         if form.is_valid():
-#             if request.user.profile.cart is None:
-#                 request.user.profile.cart = CartItem()
-#             count = form.cleaned_data['count']
-#             # if product count is invalid
-#             if count > product.count:
-#                 return redirect('/')
-#             cart.add_to_cart(request, product, count)
-#             product.change_count(count)
-#             return redirect('/')
-#     else:
-#         form = ProductBuyForm()
-#     return render(request, 'shop/product/product_buy.html', {'form': form, 'product': product})
-
-# Страница товара
-def ProductDetail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    cart_product_form = CartAddProductForm()
-    return render_to_response('core_shop/product/detail.html',
-                             {'product': product,
-                              'cart_product_form': cart_product_form})
-
