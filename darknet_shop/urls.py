@@ -23,3 +23,6 @@ urlpatterns = [
     url(r'^', include('core_shop.urls', namespace='core_shop')),
     url(r'^/cart/', include('cart.urls', namespace='cart')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -121,7 +121,7 @@ SITE_NAME = 'Darknet Shop'
 
 CART_SESSION_ID = 'cart'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures/')
 MEDIA_URL = '/pictures/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

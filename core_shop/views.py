@@ -43,7 +43,7 @@ def product_new(request):
     if not request.user.profile.customer:
         return redirect('/')
     if request.method == "POST":
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit = False)
             product.created_at = timezone.now()
@@ -62,7 +62,7 @@ def product_edit(request, id, slug):
     if request.user != product.profile.user or not request.user.is_authenticated:
         return redirect('/')
     if request.method == "POST":
-        form = ProductForm(request.POST, instance = product)
+        form = ProductForm(request.POST, request.FILES, instance = product)
         if form.is_valid():
             product = form.save(commit = False)
             product.created_at = timezone.now()
