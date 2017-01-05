@@ -3,35 +3,30 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<style>
-	img {
-		max-width: 300px; /* Максимальная ширина страницы в пикселах */ 
-		}
-</style>
 <h1>{{ product.name }}</h1>
 <div class="row">
 	<div class="col-sm-4">
-		<img class = "img-rounded" src = "{{ product.image.url }}"></img>
+		<img class = "img-rounded img-responsive" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no-image.jpg"%}{% endif %}" class="cart-img">
 	</div>
 	<div class="col-sm-4">
 		<div class = "panel panel-primary">
 			<div class = "panel-heading"><b>Описание</b></div>
 			<div class = "panel-body">
-			<ul>
-				<li><b>Производитель: </b> {{ product.brand }}</li>
-				<li><b>Категория: </b><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
-			</ul>
-			<hr>
-			<p class="price"><b>Цена: </b> {{ product.price }} руб.</p>
-            {% if user.is_authenticated and product.available %}
-            <form action="{% url "cart:CartAdd" product.id %}" method="post">
-            {{ cart_product_form }}
-            {% csrf_token %}
-            <input type="submit" value="Добавить в корзину">
-            </form>
-            {% endif %}
-            <hr>
-		    <span>{{ product.description | linebreaks }}</span>
+				<ul>
+					<li><b>Производитель: </b> {{ product.brand }}</li>
+					<li><b>Категория: </b><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+				</ul>
+				<hr>
+				<p class="price"><b>Цена: </b> {{ product.price }} руб.</p>
+				{% if user.is_authenticated and product.available %}
+				<form action="{% url "cart:CartAdd" product.id %}" method="post">
+					{{ cart_product_form }}
+					{% csrf_token %}
+					<input type="submit" value="Добавить в корзину">
+				</form>
+				{% endif %}
+				<hr>
+				<span>{{ product.description | linebreaks }}</span>
 			</div>
 		</div>
 	</div>
