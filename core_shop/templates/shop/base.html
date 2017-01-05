@@ -31,24 +31,24 @@
 			<!-- </li> -->
 			<li class="{% if request.resolver_match.url_name == "product_filter" %}active{% endif %}"><a href="/filter"><span class = "glyphicon glyphicon-search"</span> Поиск</a></li>
 		</ul>
-	<ul class="nav navbar-nav navbar-right">
-		{% with total_items=cart|length %}
-        {% if user.is_authenticated %}
-		<li class="{% if request.resolver_match.url_name == "CartDetail" %}active{% endif %}"><a href="{% url 'cart:CartDetail' %}"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина <span class="badge">{{ total_items  }}</span></a></li>
-		<li class = dropdown>
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class='glyphicon glyphicon-user'></span> Привет, {{ user.username  }}</a>
-			<ul class = "dropdown-menu">
-			{% if user.profile.customer %}
-			<li class="{% if request.resolver_match.url_name == "product_new" %}active{% endif %}"><a href="{% url 'core_shop:product_new' %}"><span class = "glyphicon glyphicon-plus"></span> Добавить товар</a></li>
+		<ul class="nav navbar-nav navbar-right">
+			{% with total_items=cart|length %}
+			{% if user.is_authenticated %}
+			<li class="{% if request.resolver_match.url_name == "CartDetail" %}active{% endif %}"><a href="{% url 'cart:CartDetail' %}"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина <span class="badge">{{ total_items  }}</span></a></li>
+			<li class = dropdown>
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class='glyphicon glyphicon-user'></span> Привет, {{ user.username  }}</a>
+				<ul class = "dropdown-menu">
+				{% if user.profile.customer %}
+				<li class="{% if request.resolver_match.url_name == "product_new" %}active{% endif %}"><a href="{% url 'core_shop:product_new' %}"><span class = "glyphicon glyphicon-plus"></span> Добавить товар</a></li>
+				{% endif %}
+				<li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Выйти</a></li>
+				</ul>
+			</li>
+			{% else  %}
+			<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
 			{% endif %}
-			<li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Выйти</a></li>
-			</ul>
-		</li>
-		{% else  %}
-		<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
-		{% endif %}
-		{% endwith %}
-	</ul>
+			{% endwith %}
+		</ul>
 	</div>
 </nav>
 {% endblock  %}

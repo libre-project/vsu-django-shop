@@ -1,19 +1,28 @@
 {% extends "shop/base.html" %}
 
+{% block title %}
+Поиск
+{% endblock %}
+
 {% block content %}
-    <form action="" method="get">
-        {{ filter.form.as_p }}
-        <!-- <input type="submit" /> -->
+<div class="row">
+	<div class="col-sm-3"
+	<form action="" method="get">
+		{{ filter.form.as_p }}
+		<!-- <input type="submit" /> -->
 		<button type = "submit" class = "save btn btn-default">Поиск</button>
-    </form>
-<div class="col-sm-9">
-    <div class="items_row">
-        {% for obj in filter.qs %}
-            <div class="item col-sm-4">
-                <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a><br>
-                {{ obj.price }} руб.
-            </div>
-        {% endfor %}
-    </div>
+	</form>
+	</div>
+	<div class="col-sm-9">
+		<h1>Товары</h1>
+		<div class="items_row">
+			{% for obj in filter.qs %}
+			<div class="item col-sm-4">
+				<a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a><br>
+				{{ obj.price }} руб.
+			</div>
+			{% endfor %}
+		</div>
+	</div>
 </div>
 	{% endblock %}

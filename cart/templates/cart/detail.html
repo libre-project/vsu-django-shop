@@ -6,44 +6,44 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Корзина</h1>
-  <table class="table table-cart table-condensed">
-    <thead>
-      <tr>
-        <th>Изображение</th>
-        <th>Продукт</th>
-        <th>Количество</th>
-        <th>Удалить</th>
-        <th>Полная цена</th>
-        <th>Цена</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
-        {% with product=item.product %}
-          <tr>
-            <td class = "cart-img">
-              <a href="{{ product.get_absolute_url }}">
-                <img src="{{ product.image.url }}" alt="" class = "img-responsive"/>
-              </a>
-            </td>
-            <td>{{ product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td><a href="{% url "cart:CartRemove" product.id %}">Удалить</a></td>
-            <td class="num">{{ item.price }} руб.</td>
-            <td class="num">{{ item.total_price }} руб.</td>
-          </tr>
-        {% endwith %}
-      {% endfor %}
-        <tr class="price">
-          <td colspan = "2">Общая сумма заказа</td>
-          <td colspan="3"></td>
-          <td class="num">{{ cart.get_total_price }} руб.</td>
-        </tr>
-    </tbody>
-  </table>
-  <p class="text-right">
-    <a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a>
-    <a href="#" class = "btn btn-success">Оформить заказ</a>
-  </p>
-  {% endblock %}
+<h1>Корзина</h1>
+<table class="table table-cart table-condensed">
+	<thead>
+		<tr>
+			<th>Изображение</th>
+			<th>Продукт</th>
+			<th>Количество</th>
+			<th>Удалить</th>
+			<th>Полная цена</th>
+			<th>Цена</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in cart %}
+		{% with product=item.product %}
+		<tr>
+			<td class = "cart-img">
+				<a href="{{ product.get_absolute_url }}">
+					<img src="{{ product.image.url }}" alt="" class = "img-responsive"/>
+				</a>
+			</td>
+			<td>{{ product.name }}</td>
+			<td>{{ item.quantity }}</td>
+			<td><a href="{% url "cart:CartRemove" product.id %}">Удалить</a></td>
+			<td class="num">{{ item.price }} руб.</td>
+			<td class="num">{{ item.total_price }} руб.</td>
+		</tr>
+		{% endwith %}
+		{% endfor %}
+		<tr class="price">
+			<td colspan = "2">Общая сумма заказа</td>
+			<td colspan="3"></td>
+			<td class="num">{{ cart.get_total_price }} руб.</td>
+		</tr>
+	</tbody>
+</table>
+<p class="text-right">
+<a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a>
+<a href="#" class = "btn btn-success">Оформить заказ</a>
+</p>
+{% endblock %}

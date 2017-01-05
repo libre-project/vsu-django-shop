@@ -17,6 +17,7 @@ def product_list(request, category_slug=None):
     return render(request, 'shop/product/list.html', {
         'category': category, 'categories': categories, 'products': products})
 
+#Фильтр продуктов
 def product_list_f(request):
     f = ProductFilter(request.GET, queryset = Product.objects.all())
     return render(request, 'shop/product/filter.html', { 'filter' : f })

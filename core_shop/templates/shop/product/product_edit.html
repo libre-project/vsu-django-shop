@@ -1,10 +1,18 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% block title %}
+{% if request.resolver_match.url_name == "product_edit" %}
+Редактирование товара
+{% else %}
+Добавление товара
+{% endif %}
+{% endblock %}
 
 {% block content %}
-	<b>{{ product.name }}</b>
-	<form method = "POST" class = "post-form" enctype="multipart/form-data">{% csrf_token %}
-		{{ form.as_p  }}
-		<button type = "submit" class = "save btn btn-default">Сохранить</button>
-	</form>
+<div class = "row">
+<form method = "POST" class = "post-form" enctype="multipart/form-data">{% csrf_token %}
+{{ form.as_p  }}
+<button type = "submit" class = "save btn btn-default">Сохранить</button>
+</form>
+</div>
 {% endblock %}

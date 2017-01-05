@@ -3,7 +3,7 @@
 
 {% block content %}
 	<h1>{{ product.name }}</h1>
-    <p> Количество товара на складе: {{ product.count }}</p>
+	<p> Количество товара на складе: {{ product.count }}</p>
 	<form method = "POST" class = "post-form">{% csrf_token %}
 		{{ form.as_p  }}
         <!--<input type="number" placeholder="Количество товара" value="1" class="form-control"
