@@ -3,12 +3,12 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<h1>{{ product.name }}</h1>
-<div class="row">
+<div class="product-detail">
 	<div class="col-sm-4">
 		<img class = "img-rounded img-responsive" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no-image.jpg"%}{% endif %}" class="cart-img">
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-8">
+		<h1>{{ product.name }}</h1>
 		<div class = "panel panel-primary">
 			<div class = "panel-heading"><b>Описание</b></div>
 			<div class = "panel-body">

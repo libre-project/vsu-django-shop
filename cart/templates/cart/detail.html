@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-  Ваша корзина товаров
+Корзина
 {% endblock %}
 
 {% block content %}
-  <h1>Ваша корзина товаров</h1>
-  <table class="table-cart">
+  <h1>Корзина</h1>
+  <table class="table table-cart table-condensed">
     <thead>
       <tr>
         <th>Изображение</th>
@@ -35,15 +35,15 @@
           </tr>
         {% endwith %}
       {% endfor %}
-        <tr class="total">
-          <td>Общая сумма заказа</td>
-          <td colspan="4"></td>
+        <tr class="price">
+          <td colspan = "2">Общая сумма заказа</td>
+          <td colspan="3"></td>
           <td class="num">{{ cart.get_total_price }} руб.</td>
         </tr>
     </tbody>
   </table>
   <p class="text-right">
-    <a href="{% url "core_shop:product_list"%}" class="btn">Продолжить Шопинг</a>
-    <a href="#" class = "btn btn-default">Оформить заказ</a>
+    <a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a>
+    <a href="#" class = "btn btn-success">Оформить заказ</a>
   </p>
   {% endblock %}
