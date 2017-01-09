@@ -20,8 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^cart/', include('cart.urls', namespace='cart')),
+    url(r'^order/', include('orders.urls', namespace='orders')),
     url(r'^', include('core_shop.urls', namespace='core_shop')),
-    url(r'^/cart/', include('cart.urls', namespace='cart')),
 ]
 
 if settings.DEBUG:

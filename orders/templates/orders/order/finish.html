@@ -1,0 +1,10 @@
+{% extends "shop/base.html" %}
+
+{% block title %}
+  Спасибо за заказ
+{% endblock %}
+
+{% block content %}
+  <h1>Заказ завершен</h1>
+  <a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a>
+{% endblock %}
