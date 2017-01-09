@@ -89,3 +89,11 @@ def product_delete(request, id, slug):
     else:
         form = ProductDeleteForm(instance = product_to_delete)
     return render(request, 'shop/product/product_delete.html', {'form' : form, 'product' : product_to_delete})
+
+def customer_products(request):
+    if not request.user.profile.customer or not request.user.is_authenticated:
+        return redirect('/')
+    # get customer's products
+    products = Product.objects.filter(profile=request.user.profile)
+    return render(request, 'shop/product/customer_products.html',
+                  {'products': products})

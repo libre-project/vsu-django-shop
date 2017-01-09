@@ -32,6 +32,8 @@ def CartRemove(request, product_id):
     return redirect('cart:CartDetail')
 
 def CartDetail(request):
+    if not request.user.is_authenticated:
+        return redirect('/')
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(

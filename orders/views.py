@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
@@ -6,6 +6,8 @@ from cart.cart import Cart
 
 def OrderCreate(request):
     cart = Cart(request)
+    if not request.user.is_authenticated or cart.get_total_price() == 0:
+        return redirect('/')
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():

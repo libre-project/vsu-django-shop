@@ -1,0 +1,45 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Ваши товары
+{% endblock %}
+
+{% block content %}
+    <h1>Ваши товары</h1>
+    {% if products.count > 0 %}
+        <table class="table table-cart table-condensed">
+            <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Продукт</th>
+                    <th>Категория</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td class = "cart-img">
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{{ product.image.url }}" alt="" class = "img-responsive"/>
+                        </a>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.count }}</td>
+                    <td class="num">{{ product.price }} руб.</td>
+                    <td><a href="{% url 'core_shop:product_edit' id=product.id slug=product.slug  %}">Редактировать</a></td>
+                    <td><a href="{% url 'core_shop:product_delete' id=product.id slug=product.slug  %}">Удалить</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-right">
+        <a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a></p>
+    {% else %}
+        <p>Вы не добавили ни одного товара.</p>
+    {% endif %}
+{% endblock %}

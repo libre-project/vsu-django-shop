@@ -44,6 +44,8 @@
 </table>
 <p class="text-right">
 <a href="{% url "core_shop:product_list"%}" class="btn btn-default">Вернуться к товарам</a>
+{% if cart.get_total_price > 0 %}
 <a href="{% url "orders:OrderCreate" %}" class = "btn btn-success">Оформить заказ</a>
+{% endif %}
 </p>
 {% endblock %}
