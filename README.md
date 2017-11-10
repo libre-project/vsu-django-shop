@@ -1,2 +1,1 @@
-#ey, siska!
-**sas** pochti gotov
+# Django E-Commerce example
